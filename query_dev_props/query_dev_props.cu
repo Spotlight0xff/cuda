@@ -3,11 +3,21 @@
 int main() {
     int nDevices;
 
-    cudaGetDeviceCount(&nDevices);
+    cudaError_t err = cudaGetDeviceCount(&nDevices);
+    if (err != cudaSuccess) {
+        fprintf(stderr, "%s\n", cudaGetErrorString(err));
+        exit(1);
+    }
+
     for (int i=0; i < nDevices; i++) {
         cudaDeviceProp prop;
         // query the device properties of the i-th device
-        cudaGetDeviceProperties(&prop, i);
+        err = cudaGetDeviceProperties(&prop, i);
+        if (err != cudaSuccess) {
+            fprintf(stderr, "%s\n", cudaGetErrorString(err));
+            exit(1);
+        }
+        
         printf("Device Number: %d\n", i);
         printf("\tDevice Name: %s\n", prop.name);
         printf("\tMajor compute capability: %d.%d\n", prop.major, prop.minor);
