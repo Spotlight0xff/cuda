@@ -77,6 +77,7 @@ build: $(PROG)
 
 
 %.o: %.cu
+	mkdir -p ../obj/
 	 $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o ../obj/$@ -c $<
 
 $(PROG): $(OBJECTS)
